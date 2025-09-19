@@ -1,44 +1,49 @@
 // Articles Page JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const readMoreBtns = document.querySelectorAll('.read-more');
-    const articleModal = document.getElementById('articleModal');
-    const closeModal = document.querySelector('.close');
-    const articleContent = document.getElementById('articleContent');
+document.addEventListener("DOMContentLoaded", function () {
+  const tabBtns = document.querySelectorAll(".tab-btn");
+  const tabContents = document.querySelectorAll(".tab-content");
+  const readMoreBtns = document.querySelectorAll(".read-more");
+  const articleModal = document.getElementById("articleModal");
+  const closeModal = document.querySelector(".close");
+  const articleContent = document.getElementById("articleContent");
 
-    // Tab switching functionality
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all tabs and contents
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            
-            // Add active class to clicked tab and corresponding content
-            this.classList.add('active');
-            document.getElementById(targetTab + 'Articles').classList.add('active');
-        });
+  // Tab switching functionality
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const targetTab = this.getAttribute("data-tab");
+
+      // Remove active class from all tabs and contents
+      tabBtns.forEach((b) => b.classList.remove("active"));
+      tabContents.forEach((c) => c.classList.remove("active"));
+
+      // Add active class to clicked tab and corresponding content
+      this.classList.add("active");
+      document.getElementById(targetTab + "Articles").classList.add("active");
     });
+  });
 
-    // Read more functionality
-    readMoreBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const articleCard = this.closest('.article-card');
-            const title = articleCard.querySelector('.article-title').textContent;
-            const description = articleCard.querySelector('.article-description').textContent;
-            const icon = articleCard.querySelector('.article-icon').textContent;
-            const author = articleCard.querySelector('.article-author span').textContent;
-            const date = articleCard.querySelector('.article-date span').textContent;
-            const category = articleCard.querySelector('.article-category').textContent;
-            
-            // Get full article content based on title
-            const fullContent = getArticleContent(title);
-            
-            // Populate modal
-            articleContent.innerHTML = `
+  // Read more functionality
+  readMoreBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const articleCard = this.closest(".article-card");
+      const title = articleCard.querySelector(".article-title").textContent;
+      const description = articleCard.querySelector(
+        ".article-description"
+      ).textContent;
+      const icon = articleCard.querySelector(".article-icon").textContent;
+      const author = articleCard.querySelector(
+        ".article-author span"
+      ).textContent;
+      const date = articleCard.querySelector(".article-date span").textContent;
+      const category =
+        articleCard.querySelector(".article-category").textContent;
+
+      // Get full article content based on title
+      const fullContent = getArticleContent(title);
+
+      // Populate modal
+      articleContent.innerHTML = `
                 <div class="article-header">
                     <div class="article-icon-large">${icon}</div>
                     <div class="article-title-large">${title}</div>
@@ -63,30 +68,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="btn btn-primary" id="bookmarkArticle">Bookmark</button>
                 </div>
             `;
-            
-            // Show modal
-            articleModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-    });
 
-    // Close modal
-    closeModal.addEventListener('click', function() {
-        articleModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+      // Show modal
+      articleModal.style.display = "block";
+      document.body.style.overflow = "hidden";
     });
+  });
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === articleModal) {
-            articleModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
+  // Close modal
+  closeModal.addEventListener("click", function () {
+    articleModal.style.display = "none";
+    document.body.style.overflow = "auto";
+  });
 
-    // Add modal styles
-    const modalStyle = document.createElement('style');
-    modalStyle.textContent = `
+  // Close modal when clicking outside
+  window.addEventListener("click", function (event) {
+    if (event.target === articleModal) {
+      articleModal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  // Add modal styles
+  const modalStyle = document.createElement("style");
+  modalStyle.textContent = `
         .tab-content {
             display: none;
         }
@@ -237,37 +242,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     `;
-    document.head.appendChild(modalStyle);
+  document.head.appendChild(modalStyle);
 
-    // Add article card animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+  // Add article card animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe article cards for animation
-    const articleCards = document.querySelectorAll('.article-card');
-    articleCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
     });
+  }, observerOptions);
+
+  // Observe article cards for animation
+  const articleCards = document.querySelectorAll(".article-card");
+  articleCards.forEach((card, index) => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    card.style.transition = `opacity 0.6s ease ${
+      index * 0.1
+    }s, transform 0.6s ease ${index * 0.1}s`;
+    observer.observe(card);
+  });
 });
 
 // Get full article content based on title
 function getArticleContent(title) {
-    const articles = {
-        '10 Essential Exercises for Beginners': `
+  const articles = {
+    "10 Essential Exercises for Beginners": `
             <div class="article-section">
                 <h3>Getting Started with Exercise</h3>
                 <p>Starting a fitness journey can be overwhelming, but these 10 fundamental exercises will help you build a strong foundation. Each exercise targets multiple muscle groups and can be modified for any fitness level.</p>
@@ -311,7 +318,7 @@ function getArticleContent(title) {
                 <p>Start with 2-3 sets of 8-12 repetitions for each exercise. As you get stronger, increase repetitions or add resistance. Remember to warm up before exercising and cool down afterward.</p>
             </div>
         `,
-        'Meal Prep Made Simple': `
+    "Meal Prep Made Simple": `
             <div class="article-section">
                 <h3>The Art of Meal Preparation</h3>
                 <p>Meal prep is the secret weapon of successful fitness enthusiasts. By dedicating just 2 hours on Sunday, you can set yourself up for a week of healthy eating without the daily stress of cooking.</p>
@@ -348,7 +355,7 @@ function getArticleContent(title) {
                 <p>Use airtight containers and label everything with dates. Most prepped meals stay fresh for 3-5 days in the refrigerator. Freeze portions you won't eat within 5 days.</p>
             </div>
         `,
-        'Why HIIT is the Ultimate Fat Burner': `
+    "Why HIIT is the Ultimate Fat Burner": `
             <div class="article-section">
                 <h3>The Science Behind HIIT</h3>
                 <p>High-Intensity Interval Training (HIIT) has revolutionized the fitness world by proving that you don't need hours in the gym to see results. The science is clear: HIIT burns more fat in less time than traditional steady-state cardio.</p>
@@ -382,7 +389,7 @@ function getArticleContent(title) {
                 <p>HIIT is intense, so proper warm-up and cool-down are essential. Start slowly and gradually increase intensity. If you're new to exercise, consider working with a trainer to ensure proper form.</p>
             </div>
         `,
-        'Complete Guide to Strength Training': `
+    "Complete Guide to Strength Training": `
             <div class="article-section">
                 <h3>Building a Strong Foundation</h3>
                 <p>Strength training is about more than just lifting weights. It's about building functional strength, improving bone density, and creating a body that can handle life's demands with ease.</p>
@@ -413,7 +420,7 @@ function getArticleContent(title) {
                 <p>Don't skip the warm-up, avoid ego lifting, and remember that consistency beats intensity. It's better to train moderately for years than intensely for months.</p>
             </div>
         `,
-        'Yoga for Beginners: Start Your Journey': `
+    "Yoga for Beginners: Start Your Journey": `
             <div class="article-section">
                 <h3>Finding Balance Through Yoga</h3>
                 <p>Yoga is more than just physical exercise - it's a practice that combines movement, breath, and mindfulness to create a sense of balance and well-being.</p>
@@ -442,7 +449,7 @@ function getArticleContent(title) {
                 <p>Yoga is about connecting mind and body. Take time to notice how poses feel in your body and how your breath changes. This awareness is the true gift of yoga practice.</p>
             </div>
         `,
-        'The Importance of Recovery and Rest': `
+    "The Importance of Recovery and Rest": `
             <div class="article-section">
                 <h3>Recovery: The Missing Piece</h3>
                 <p>Many people focus on training hard but neglect recovery. However, recovery is when the magic happens - it's when your body adapts to training and gets stronger.</p>
@@ -477,42 +484,44 @@ function getArticleContent(title) {
                 <h3>Rest Days Are Training Days</h3>
                 <p>Remember, rest days are not lazy days - they're essential training days that allow your body to adapt and grow stronger. Embrace them as part of your fitness journey.</p>
             </div>
-        `
-    };
-    
-    return articles[title] || '<p>Full article content coming soon...</p>';
+        `,
+  };
+
+  return articles[title] || "<p>Full article content coming soon...</p>";
 }
 
 // Add event listeners for modal actions
-document.addEventListener('click', function(e) {
-    if (e.target.id === 'shareArticle') {
-        if (navigator.share) {
-            navigator.share({
-                title: document.querySelector('.article-title-large').textContent,
-                text: document.querySelector('.article-intro').textContent,
-                url: window.location.href
-            });
-        } else {
-            // Fallback for browsers that don't support Web Share API
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Article link copied to clipboard!');
-            });
-        }
+document.addEventListener("click", function (e) {
+  if (e.target.id === "shareArticle") {
+    if (navigator.share) {
+      navigator.share({
+        title: document.querySelector(".article-title-large").textContent,
+        text: document.querySelector(".article-intro").textContent,
+        url: window.location.href,
+      });
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert("Article link copied to clipboard!");
+      });
     }
-    
-    if (e.target.id === 'bookmarkArticle') {
-        // Simple bookmark functionality
-        const title = document.querySelector('.article-title-large').textContent;
-        const bookmarks = JSON.parse(localStorage.getItem('articleBookmarks') || '[]');
-        
-        if (!bookmarks.includes(title)) {
-            bookmarks.push(title);
-            localStorage.setItem('articleBookmarks', JSON.stringify(bookmarks));
-            e.target.textContent = 'Bookmarked!';
-            e.target.style.backgroundColor = '#4CAF50';
-        } else {
-            alert('Article already bookmarked!');
-        }
+  }
+
+  if (e.target.id === "bookmarkArticle") {
+    // Simple bookmark functionality
+    const title = document.querySelector(".article-title-large").textContent;
+    const bookmarks = JSON.parse(
+      localStorage.getItem("articleBookmarks") || "[]"
+    );
+
+    if (!bookmarks.includes(title)) {
+      bookmarks.push(title);
+      localStorage.setItem("articleBookmarks", JSON.stringify(bookmarks));
+      e.target.textContent = "Bookmarked!";
+      e.target.style.backgroundColor = "#4CAF50";
+    } else {
+      alert("Article already bookmarked!");
     }
+  }
 });

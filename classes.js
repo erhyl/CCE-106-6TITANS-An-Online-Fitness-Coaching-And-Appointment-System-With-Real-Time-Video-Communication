@@ -1,103 +1,109 @@
 // Class Schedules Page JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const classCards = document.querySelectorAll('.class-card');
-    const bookingModal = document.getElementById('bookingModal');
-    const bookingForm = document.getElementById('bookingForm');
-    const closeModal = document.querySelector('.close');
-    const bookClassBtns = document.querySelectorAll('.book-class');
+document.addEventListener("DOMContentLoaded", function () {
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const classCards = document.querySelectorAll(".class-card");
+  const bookingModal = document.getElementById("bookingModal");
+  const bookingForm = document.getElementById("bookingForm");
+  const closeModal = document.querySelector(".close");
+  const bookClassBtns = document.querySelectorAll(".book-class");
 
-    // Day filter functionality
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            this.classList.add('active');
+  // Day filter functionality
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      // Remove active class from all buttons
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      // Add active class to clicked button
+      this.classList.add("active");
 
-            const selectedDay = this.getAttribute('data-day');
-            
-            // Filter class cards
-            classCards.forEach(card => {
-                if (selectedDay === 'all' || card.getAttribute('data-day') === selectedDay) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeIn 0.5s ease-in';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
+      const selectedDay = this.getAttribute("data-day");
 
-    // Book class functionality
-    bookClassBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const classCard = this.closest('.class-card');
-            const className = classCard.querySelector('.class-name').textContent;
-            const classTime = classCard.querySelector('.class-time').textContent;
-            const instructor = classCard.querySelector('.class-detail span').textContent;
-
-            // Populate modal with class details
-            document.getElementById('className').value = className;
-            document.getElementById('classTime').value = classTime;
-            document.getElementById('instructor').value = instructor;
-
-            // Show modal
-            bookingModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-    });
-
-    // Close modal
-    closeModal.addEventListener('click', function() {
-        bookingModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === bookingModal) {
-            bookingModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+      // Filter class cards
+      classCards.forEach((card) => {
+        if (
+          selectedDay === "all" ||
+          card.getAttribute("data-day") === selectedDay
+        ) {
+          card.style.display = "block";
+          card.style.animation = "fadeIn 0.5s ease-in";
+        } else {
+          card.style.display = "none";
         }
+      });
     });
+  });
 
-    // Handle form submission
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const bookingData = {
-            className: formData.get('className'),
-            classTime: formData.get('classTime'),
-            instructor: formData.get('instructor'),
-            memberName: formData.get('memberName'),
-            memberEmail: formData.get('memberEmail'),
-            memberPhone: formData.get('memberPhone')
-        };
+  // Book class functionality
+  bookClassBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const classCard = this.closest(".class-card");
+      const className = classCard.querySelector(".class-name").textContent;
+      const classTime = classCard.querySelector(".class-time").textContent;
+      const instructor =
+        classCard.querySelector(".class-detail span").textContent;
 
-        // Show loading
-        showLoading();
+      // Populate modal with class details
+      document.getElementById("className").value = className;
+      document.getElementById("classTime").value = classTime;
+      document.getElementById("instructor").value = instructor;
 
-        // Simulate API call
-        setTimeout(() => {
-            hideLoading();
-            
-            // Show success message
-            alert('Class booked successfully! You will receive a confirmation email shortly.');
-            
-            // Close modal and reset form
-            bookingModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            this.reset();
-        }, 2000);
+      // Show modal
+      bookingModal.style.display = "block";
+      document.body.style.overflow = "hidden";
     });
+  });
 
-    // Add fade-in animation CSS
-    const style = document.createElement('style');
-    style.textContent = `
+  // Close modal
+  closeModal.addEventListener("click", function () {
+    bookingModal.style.display = "none";
+    document.body.style.overflow = "auto";
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener("click", function (event) {
+    if (event.target === bookingModal) {
+      bookingModal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  // Handle form submission
+  bookingForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Get form data
+    const formData = new FormData(this);
+    const bookingData = {
+      className: formData.get("className"),
+      classTime: formData.get("classTime"),
+      instructor: formData.get("instructor"),
+      memberName: formData.get("memberName"),
+      memberEmail: formData.get("memberEmail"),
+      memberPhone: formData.get("memberPhone"),
+    };
+
+    // Show loading
+    showLoading();
+
+    // Simulate API call
+    setTimeout(() => {
+      hideLoading();
+
+      // Show success message
+      alert(
+        "Class booked successfully! You will receive a confirmation email shortly."
+      );
+
+      // Close modal and reset form
+      bookingModal.style.display = "none";
+      document.body.style.overflow = "auto";
+      this.reset();
+    }, 2000);
+  });
+
+  // Add fade-in animation CSS
+  const style = document.createElement("style");
+  style.textContent = `
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -118,11 +124,11 @@ document.addEventListener('DOMContentLoaded', function() {
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
         }
     `;
-    document.head.appendChild(style);
+  document.head.appendChild(style);
 });
 
 // Modal styles
-const modalStyle = document.createElement('style');
+const modalStyle = document.createElement("style");
 modalStyle.textContent = `
     .modal {
         display: none;
