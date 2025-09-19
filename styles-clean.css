@@ -1050,6 +1050,17 @@ body {
     font-size: 0.8rem;
 }
 
+.messagingModal {
+  position: centered; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 60%;  
+  height: auto; 
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
@@ -1099,7 +1110,7 @@ body {
         justify-content: center;
     }
 
-    .features-grid {
+    .featres-grid {
         grid-template-columns: 1fr;
     }
 
